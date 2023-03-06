@@ -46,7 +46,7 @@ const setCurrentProducts = ({result, meta}) => {
 const fetchProducts = async (page = 1, size = 12) => {
   try {
     const response = await fetch(
-      `https://clear-fashion-api.vercel.app?page=${page}&size=${size}`
+        `https://my-api.com/products?page=${page}&limit=${limit}&brand=${brand}&sort=${sort}`;
     );
     const body = await response.json();
 
@@ -87,6 +87,7 @@ const renderProducts = products => {
   sectionProducts.appendChild(fragment);
 };
 
+
 /**
  * Render page selector
  * @param  {Object} pagination
@@ -100,6 +101,12 @@ const renderPagination = pagination => {
 
   selectPage.innerHTML = options;
   selectPage.selectedIndex = currentPage - 1;
+
+     selectPage.addEventListener('change', async (event) => {
+    const products = await fetchProducts(parseInt(event.target.value), 12);
+    setCurrentProducts(products);
+    render(currentProducts, currentPagination);
+     });
 };
 
 /**
@@ -136,5 +143,57 @@ document.addEventListener('DOMContentLoaded', async () => {
   const products = await fetchProducts();
 
   setCurrentProducts(products);
-  render(currentProducts, currentPagination);
+    render(currentProducts, currentPagination);
+    renderPagination(currentPagination);
 });
+
+
+const reasonablePriceFilter = document.querySelector('#reasonable-price');
+reasonablePriceFilter.addEventListener('click', filterReasonablePrice);
+
+function filterReasonablePrice() {
+    const filteredProducts = products.filter((product) => product.price < 50);
+    renderProducts(filteredProducts);
+}
+
+const sortByPrice = document.querySelector('#reasonable-price');
+sortByPrice.addEventListener('click', filterReasonablePrice);
+
+// Step 1: Add event listener to "sort-select" element
+const sortSelect = document.getElementById("sort-select");
+sortSelect.addEventListener("change", sortProducts);
+
+/*Feature 4 - Filter by reasonable price
+  Add an event listener to the "sort-select" dropdown that calls
+the fetchProducts function with the selected sort option:
+*/
+const sortSelect = document.getElementById("sort-select");
+
+sortSelect.addEventListener("change", async () => {
+    const selectedSortOption = sortSelect.value;
+    const data = await fetchProducts(1, 12, "", selectedSortOption);
+    renderProducts(data.products);
+});
+
+const renderProducts = (products) => {
+    // render the products in the UI
+};
+
+const renderPagination = (currentPage, totalPages) => {
+    // render the pagination links in the UI
+};
+
+const updateUI = (data) => {
+    renderProducts(data.products);
+    renderPagination(data.currentPage, data.totalPages);
+};
+
+// initialize the app with default settings
+const init = async () => {
+    const data = await fetchProducts();
+    updateUI(data);
+};
+
+init();
+
+
