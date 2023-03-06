@@ -7,14 +7,30 @@
   <body>
     <h1>Clear fashion</h1>
     <section id="options">
-      <div id="show">
-        <label for="show-select">Show:</label>
-        <select name="show" id="show-select">
-          <option value="12">12</option>
-          <option value="24">24</option>
-          <option value="48">48</option>
-        </select>
-      </div>
+        <div id="show">
+            <label for="show-select">Show:</label>
+            <select name="show" id="show-select">
+                <option value="12">12</option>
+                <option value="24">24</option>
+                <option value="48">48</option>
+            </select>
+
+            <div id="filters">
+                <span>By reasonable price</span>
+                <span>By recently released</span>
+                <div id="brand">
+                    <label for="brand-select">By brands:</label>
+                    <select name="brand" id="brand-select">
+                        <option value="">All brands</option>
+                        <option value="brand1">Brand 1</option>
+                        <option value="brand2">Brand 2</option>
+                        <option value="brand3">Brand 3</option>
+                        ...
+                    </select>
+                </div>
+            </div>
+
+        </div>
       <div id="page">
         <label for="page-select">Go to page:</label>
         <select name="page" id="page-select"> </select>
@@ -35,6 +51,9 @@
           <option value="date-asc">Recently released</option>
           <option value="date-desc">Anciently released</option>
         </select>
+        <select id="brand-select">
+  <option value="">All brands</option>
+</select>
       </div>
     </section>
     <section id="indicators">
