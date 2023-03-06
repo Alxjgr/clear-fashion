@@ -71,16 +71,33 @@ const sortedProducts = sortByPrice(marketplace);
 console.log(sortedProducts);
 // 🎯 TODO 5: Sort by date
 // 1. Create a function to sort the marketplace objects by products date
+function sortByDate(item1, item2) {
+    const date1 = new Date(item1.date);
+    const date2 = new Date(item2.date);
+    return date2 - date1; // Descending order
+}
 // 2. Create a variable and assign it the list of products by date from recent to old
+const marketplaceByDate = sortByDate(marketplace)
 // 3. Log the variable
-
+console.log(marketplaceByDate);
 // 🎯 TODO 6: Filter a specific price range
 // 1. Filter the list of products between 50€ and 100€
+marketplaceFilter = marketplace.filter(element => element >=50 && element<=100 ? true : false )
 // 2. Log the list
-
+console.log(marketplaceFilter);
 // 🎯 TODO 7: Average price
 // 1. Determine the average price of the marketplace
+function Average(list) {
+    let sum = 0;
+    for(let i = 0; i < list.length; i++) {
+        sum += list[i];
+    }
+    return sum / list.length;
+}
+
+
 // 2. Log the average
+console.log(Average);
 
 /**
  * 🏎
@@ -94,6 +111,16 @@ console.log(sortedProducts);
 // The key is the brand name
 // The value is the array of products
 //
+const brands = {};
+
+marketplace.forEach((product) => {
+    if (!brands[product.brand]) {
+        brands[product.brand] = [];
+    }
+    brands[product.brand].push(product);
+});
+
+
 // Example:
 // const brands = {
 //   'brand-name-1': [{...}, {...}, ..., {...}],
@@ -103,16 +130,55 @@ console.log(sortedProducts);
 // };
 //
 // 2. Log the variable
+console.log(brands);
 // 3. Log the number of products by brands
+const brands = {};
+
+marketplace.forEach((product) => {
+    if (!brands[product.brand]) {
+        brands[product.brand] = [];
+    }
+    brands[product.brand].push(product);
+});
+
+Object.keys(brands).forEach((brand) => {
+    console.log(`Brand: ${brand}, Products: ${brands[brand].length}`);
+});
 
 // 🎯 TODO 9: Sort by price for each brand
 // 1. For each brand, sort the products by price, from highest to lowest
+const brands = {};
+
+marketplaceFilter.forEach((product) => {
+    if (!brands[product.brand]) {
+        brands[product.brand] = [];
+    }
+    brands[product.brand].push(product);
+});
+
+for (const brand in brands) {
+    brands[brand].sort((a, b) => b.price - a.price);
+}
+
+console.log(brands);
 // 2. Log the sort
 
 // 🎯 TODO 10: Sort by date for each brand
+const brands = {};
+
+marketplaceFilter.forEach((product) => {
+    if (!brands[product.brand]) {
+        brands[product.brand] = [];
+    }
+    brands[product.brand].push(product);
+});
+
+for (const brand in brands) {
+    brands[brand].sort((a, b) => new Date(b.date) - new Date(a.date));
+}
 // 1. For each brand, sort the products by date, from old to recent
 // 2. Log the sort
-
+console.log(brands);
 /**
  * 💶
  * Let's talk about money now
@@ -123,6 +189,16 @@ console.log(sortedProducts);
 // 🎯 TODO 11: Compute the p90 price value
 // 1. Compute the p90 price value of each brand
 // The p90 value (90th percentile) is the lower value expected to be exceeded in 90% of the products
+const brands = [...new Set(products.map((p) => p.brand))];
+for (const brand of brands) {
+    const prices = products
+        .filter((p) => p.brand === brand)
+        .map((p) => p.price)
+        .sort((a, b) => a - b);
+    const p90Index = Math.ceil(prices.length * 0.9) - 1;
+    const p90Value = prices[p90Index];
+    console.log(`P90 value for ${brand}: ${p90Value}`);
+}
 
 /**
  * 🧥
